@@ -28,7 +28,9 @@ jobs:
       - name: Check secrets
         run: |
           echo "TOUGE_SERVER_IP = [$TOUGE_SERVER_IP]"
-          echo "TOUGE_SSH_PRIVATE_KEY length = ${#TOUGE_SSH_PRIVATE_KEY}"
+          echo "TOUGE_SERVER_IP 长度 = ${#TOUGE_SERVER_IP}  (47.96.157.89 应为 12)"
+          echo "TOUGE_SSH_PORT   = [${TOUGE_SSH_PORT:-未配置，将回退 42967}]"
+          echo "TOUGE_SSH_PRIVATE_KEY length = ${#TOUGE_SSH_PRIVATE_KEY}  (应为 3389)"
           if [ -z "$TOUGE_SERVER_IP" ]; then
             echo "::error::TOUGE_SERVER_IP 为空，请确认已加在本仓库的 Repository secrets 中"
             exit 1
