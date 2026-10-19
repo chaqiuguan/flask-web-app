@@ -40,12 +40,14 @@ jobs:
         env:
           TOUGE_SERVER_IP: ${{ secrets.TOUGE_SERVER_IP }}
           TOUGE_SSH_PRIVATE_KEY: ${{ secrets.TOUGE_SSH_PRIVATE_KEY }}
-      - name: Deploy to Touge Server via SSH (Port 42967)
+      - name: Deploy to Touge Server via SSH
         run: |
           mkdir -p ~/.ssh
           printf "%s\n" "$TOUGE_SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh -v -p 42967 \
+          PORT=${TOUGE_SSH_PORT:-42967}
+          echo "连接 ${TOUGE_SERVER_IP}:${PORT}"
+          ssh -v -p "$PORT" \
               -o StrictHostKeyChecking=accept-new \
               -o HostKeyAlgorithms=+ssh-rsa \
               -o PubkeyAcceptedAlgorithms=+ssh-rsa \
@@ -62,3 +64,4 @@ jobs:
         env:
           TOUGE_SSH_PRIVATE_KEY: ${{ secrets.TOUGE_SSH_PRIVATE_KEY }}
           TOUGE_SERVER_IP: ${{ secrets.TOUGE_SERVER_IP }}
+          TOUGE_SSH_PORT: ${{ secrets.TOUGE_SSH_PORT }}
